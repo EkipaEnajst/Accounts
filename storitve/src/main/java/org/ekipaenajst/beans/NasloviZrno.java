@@ -1,6 +1,7 @@
 package org.ekipaenajst.beans;
 
-import org.ekipaenajst.entitete.Avto;
+import org.ekipaenajst.entitete.Naslov;
+import org.ekipaenajst.entitete.Uporabnik;
 
 import javax.enterprise.context.RequestScoped;
 import javax.annotation.PostConstruct;
@@ -11,20 +12,21 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
-
-@RequestScoped // js literally sam kradem kodo iz UporabnikiZrno
-public class AvtiZrno {
+@ApplicationScoped
+public class NasloviZrno { //me when i copypaste
     private EntityManagerFactory emf;
 
     @PersistenceContext(unitName = "accounts-jpa")
     private EntityManager em;
 
+    private Logger log = Logger.getLogger(NasloviZrno.class.getName());
 
-    private Logger log = Logger.getLogger(AvtiZrno.class.getName());
+
+
 
     @PostConstruct
     private void init() {
-        log.info("Inicializacija zrna " + AvtiZrno.class.getSimpleName());
+        log.info("Inicializacija zrna " + NasloviZrno.class.getSimpleName());
 
         emf = Persistence.createEntityManagerFactory(
                 "accounts-jpa"
@@ -37,18 +39,18 @@ public class AvtiZrno {
 
     @PreDestroy
     private void destroy() {
-        log.info("Deinicializacija zrna " + AvtiZrno.class.getSimpleName());
+        log.info("Deinicializacija zrna " + NasloviZrno.class.getSimpleName());
 
         em.close();
         emf.close();
     }
 
-    public List<Avto> getAvti() {
+    public List<Naslov> getNaslovi() {
 
         //em.getTransaction().begin();
-        Query q = em.createNamedQuery("Avto.findAll", Avto.class);
+        Query q = em.createNamedQuery("Naslov.findAll", Naslov.class);
 
-        List<Avto> resultList = (List<Avto>)q.getResultList();
+        List<Naslov> resultList = (List<Naslov>)q.getResultList();
 
         return resultList;
     }

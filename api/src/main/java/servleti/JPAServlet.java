@@ -1,6 +1,8 @@
 package servleti;
 
 import org.ekipaenajst.beans.UporabnikiZrno;
+import org.ekipaenajst.beans.AvtiZrno;
+import org.ekipaenajst.beans.NasloviZrno;
 import org.ekipaenajst.entitete.*;
 
 
@@ -23,10 +25,18 @@ public class JPAServlet extends HttpServlet {
     @Inject
     private UporabnikiZrno uporabnikiZrno;
 
+    @Inject
+    private AvtiZrno avtiZrno;
+
+    @Inject
+    private NasloviZrno nasloviZrno;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
+        List<Avto> avti = avtiZrno.getAvti();
+        List<Naslov> naslovi = nasloviZrno.getNaslovi();
 
         resp.setContentType("text/html; charset=UTF-8");
         resp.setCharacterEncoding("UTF-8");
@@ -39,6 +49,25 @@ public class JPAServlet extends HttpServlet {
 
         for (Uporabnik uporabnik : uporabniki) {
             writer.append(uporabnik.toString());
+            writer.append("<br/>");
+        }
+
+        // izpis avtov
+        writer.append("<br/><br/>Avti:<br/>");
+
+
+        for (Avto avto : avti) {
+            writer.append(avto.toString());
+            writer.append("<br/>");
+        }
+
+        // izpis naslovov
+        writer.append("<br/><br/>Naslovi:<br/>");
+
+
+        for (Naslov naslov : naslovi) {
+            writer.append(naslov.toString());
+            writer.append("<br/>");
         }
 
     }

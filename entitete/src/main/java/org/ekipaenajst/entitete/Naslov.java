@@ -13,6 +13,15 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="naslov")
+@NamedQueries(value = {
+        @NamedQuery(name = "Naslov.findAll", query="SELECT n FROM Naslov n"),
+        @NamedQuery(name = "Naslov.findId", query="SELECT n from Naslov n WHERE n.id= :idParam"),
+        @NamedQuery(name = "Naslov.findByCity", query="SELECT n FROM Naslov n WHERE n.mesto= :cityParam ORDER BY n.mesto"),
+        @NamedQuery(name = "Naslov.findByStreet", query="SELECT n FROM Naslov n WHERE n.ulica= :streetParam ORDER BY n.ulica"),
+        @NamedQuery(name = "Naslov.findByZipcode", query="SELECT n FROM Naslov n WHERE n.postnaSt= :zipcodeParam"),
+        @NamedQuery(name = "Naslov.findByFullAddress",
+                query="SELECT n FROM Naslov n WHERE n.mesto= :cityParam AND n.ulica= :streetParam AND n.hisnaSt= :houseParam AND n.postnaSt= :zipcodeParam")
+})
 public class Naslov {
 
     @Id
