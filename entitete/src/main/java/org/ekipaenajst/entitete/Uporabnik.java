@@ -6,10 +6,10 @@ import java.util.List;
 @Entity
 @Table(name = "uporabnik")
 @NamedQueries(value = {
-        @NamedQuery(name = "Uporabnik.getAll", query="SELECT u FROM Uporabnik u"),
-        @NamedQuery(name = "Uporabnik.getId", query="SELECT u from Uporabnik u WHERE u.id= :idParam"),
-        @NamedQuery(name = "Uporabnik.getByLastname", query="SELECT u FROM Uporabnik u WHERE u.lastName= :lastNameParam ORDER BY u.lastName"),
-        @NamedQuery(name = "Uporabnik.getByFullname",
+        @NamedQuery(name = "Uporabnik.findAll", query="SELECT u FROM Uporabnik u"),
+        @NamedQuery(name = "Uporabnik.findId", query="SELECT u from Uporabnik u WHERE u.id= :idParam"),
+        @NamedQuery(name = "Uporabnik.findByLastname", query="SELECT u FROM Uporabnik u WHERE u.lastName= :lastNameParam ORDER BY u.lastName"),
+        @NamedQuery(name = "Uporabnik.findByFullname",
                 query="SELECT u FROM Uporabnik u WHERE u.lastName = :lastNameParam AND u.firstName = :firstNameParam")
 })
 public class Uporabnik {
@@ -36,6 +36,11 @@ public class Uporabnik {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "uporabnik")
     private List<Avto> vozila;
+
+    @Override
+    public String toString() {
+        return String.format("ID: %d Ime: %s Priimek: %s Email: %s\n",this.id,this.firstName,this.lastName,this.email);
+    }
 
     public Integer getId() {
         return id;
