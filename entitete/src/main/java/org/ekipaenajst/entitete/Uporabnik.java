@@ -34,7 +34,7 @@ public class Uporabnik {
     @JoinColumn(name = "naslovId")
     private Naslov naslov;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "uporabnik")
+    @OneToMany(fetch = FetchType.LAZY/*, mappedBy = "uporabnik"*/)
     private List<Avto> vozila;
 
     @Override

@@ -20,26 +20,26 @@ import java.util.logging.Logger;
 @WebServlet("/servlet")
 public class JPAServlet extends HttpServlet {
 
-    //@Inject
-    //private UporabnikiZrno uporabnikiZrno;
+    @Inject
+    private UporabnikiZrno uporabnikiZrno;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
+        List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
 
-        //resp.setContentType("text/html; charset=UTF-8");
-       // resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
+        resp.setCharacterEncoding("UTF-8");
 
-        //PrintWriter writer = resp.getWriter();
+        PrintWriter writer = resp.getWriter();
 
         // izpis uporabnikov
-       // writer.append("<br/><br/>Uporabniki:<br/>");
+        writer.append("<br/><br/>Uporabniki:<br/>");
 
 
-//        for (Uporabnik uporabnik : uporabniki) {
-//            writer.append(uporabnik.toString());
-//        }
+        for (Uporabnik uporabnik : uporabniki) {
+            writer.append(uporabnik.toString());
+        }
 
     }
 }
