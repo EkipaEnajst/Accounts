@@ -70,5 +70,71 @@ public class JPAServlet extends HttpServlet {
             writer.append("<br/>");
         }
 
+        // ustvarjanje novega uporabnika
+        writer.append("<br/>Ustvarjanje uporabnika <br/>");
+        Uporabnik u = new Uporabnik();
+        u.setFirstName("Andrej");
+        u.setLastName("Andrejevič");
+        u.setUsername("aa");
+        u.setEmail("aa@gmail.com");
+
+
+        writer.append(u.toString());
+        writer.append("<br/>");
+
+        uporabnikiZrno.createUporabnik(u);
+
+        // izpis uporabnikov
+        writer.append("<br/><br/>Uporabniki:<br/>");
+
+        uporabniki = uporabnikiZrno.getUporabniki();
+
+        for (Uporabnik uporabnik : uporabniki) {
+            writer.append(uporabnik.toString());
+            writer.append("<br/>");
+        }
+
+        Uporabnik u2 = uporabnikiZrno.getUporabnik(2);
+        writer.append("<br/><br/>Posodabljanje Uporabnika 2:<br/>");
+
+        if (u2!=null) writer.append(u2.toString());
+        writer.append("<br/>");
+
+        u2.setFirstName("Ožbej");
+
+        uporabnikiZrno.updateUporabnik(u2);
+
+
+        // izpis uporabnikov
+        writer.append("<br/><br/>Uporabniki:<br/>");
+
+        uporabniki = uporabnikiZrno.getUporabniki();
+
+        for (Uporabnik uporabnik : uporabniki) {
+            writer.append(uporabnik.toString());
+            writer.append("<br/>");
+        }
+
+        writer.append("<br/><br/>Brisanje Uporabnika 2:<br/>");
+
+        writer.append(u2.toString());
+        writer.append("<br/>");
+
+
+        uporabnikiZrno.deleteUporabnik(u2);
+
+
+        // izpis uporabnikov
+        writer.append("<br/><br/>Uporabniki:<br/>");
+
+        uporabniki = uporabnikiZrno.getUporabniki();
+
+        for (Uporabnik uporabnik : uporabniki) {
+            writer.append(uporabnik.toString());
+            writer.append("<br/>");
+        }
+
+
+
     }
 }

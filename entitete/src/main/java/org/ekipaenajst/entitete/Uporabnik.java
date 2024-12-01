@@ -1,6 +1,7 @@
 package org.ekipaenajst.entitete;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -9,10 +10,10 @@ import java.util.List;
         @NamedQuery(name = "Uporabnik.findAll", query="SELECT u FROM Uporabnik u"),
         @NamedQuery(name = "Uporabnik.findId", query="SELECT u from Uporabnik u WHERE u.id= :idParam"),
         @NamedQuery(name = "Uporabnik.findByLastname", query="SELECT u FROM Uporabnik u WHERE u.lastName= :lastNameParam ORDER BY u.lastName"),
-        @NamedQuery(name = "Uporabnik.findByFullname",
+        @NamedQuery(name = "Uporabnik.findByName",
                 query="SELECT u FROM Uporabnik u WHERE u.lastName = :lastNameParam AND u.firstName = :firstNameParam")
 })
-public class Uporabnik {
+public class Uporabnik implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,8 @@ public class Uporabnik {
 
     @OneToMany(fetch = FetchType.LAZY/*, mappedBy = "uporabnik"*/)
     private List<Avto> vozila;
+
+    public Uporabnik() {}
 
     @Override
     public String toString() {
