@@ -33,6 +33,17 @@
             <artifactId>kumuluzee-jax-rs-jersey</artifactId>
         </dependency>
 
+        <dependency> <!-- pravi da rabim te dve?-->
+            <groupId>com.kumuluz.ee</groupId>
+            <artifactId>kumuluzee-json-p-jsonp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kumuluz.ee</groupId>
+            <artifactId>kumuluzee-json-b-yasson</artifactId>
+        </dependency>
+
+
 
         <dependency>
             <groupId>org.ekipaenajst</groupId>
