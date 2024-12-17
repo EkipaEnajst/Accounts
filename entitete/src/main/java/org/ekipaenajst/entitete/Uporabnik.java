@@ -2,6 +2,7 @@ package org.ekipaenajst.entitete;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,26 +20,28 @@ public class Uporabnik implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "firstName")
+    //@Column(name = "firstName")
     private String firstName;
 
-    @Column(name = "lastName")
+    //@Column(name = "lastName")
     private String lastName;
 
-    @Column(name = "email")
+    //@Column(name = "email")
     private String email;
 
-    @Column(name = "username")
+    //@Column(name = "username")
     private String username;
 
     @OneToOne
-    @JoinColumn(name = "naslovId")
+    //@JoinColumn(name = "naslovId")
     private Naslov naslov;
 
     @OneToMany(fetch = FetchType.LAZY/*, mappedBy = "uporabnik"*/)
-    private List<Avto> vozila;
+    private List<Avto> avti;
 
-    public Uporabnik() {}
+    public Uporabnik() {
+        this.avti = new ArrayList<Avto>(); // REMOVE THIS LINE IF CODE DOESNT WORK
+    }
 
     @Override
     public String toString() {
@@ -91,6 +94,14 @@ public class Uporabnik implements Serializable {
 
     public void setNaslov(Naslov naslov) {
         this.naslov = naslov;
+    }
+
+    public void addAvto(Avto avto) {
+        this.avti.add(avto);
+    }
+
+    public void removeAvto(Avto avto) {
+        this.avti.remove(avto);
     }
 
 

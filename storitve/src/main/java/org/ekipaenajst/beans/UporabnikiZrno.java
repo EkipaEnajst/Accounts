@@ -1,11 +1,13 @@
 package org.ekipaenajst.beans;
 
+import org.ekipaenajst.entitete.Avto;
 import org.ekipaenajst.entitete.Uporabnik;
 
 import javax.enterprise.context.RequestScoped;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,6 +19,9 @@ public class UporabnikiZrno {
 
     @PersistenceContext(unitName = "accounts-jpa")
     private EntityManager em;
+
+    @Inject
+    private AvtiZrno avtiZrno;
 
     private Logger log = Logger.getLogger(UporabnikiZrno.class.getName());
 
@@ -98,6 +103,17 @@ public class UporabnikiZrno {
             System.out.println("Creating not work");
         }
 
+    }
+
+    // NON-CRUD methods
+
+    @Transactional
+    public void addAvtoToUporabnik(Uporabnik uporabnik, Avto avto) {
+        uporabnik.addAvto(avto);
+        updateUporabnik(uporabnik);
+
+        avto.setLastnik(uporabnik);
+        avtiZrno.updateAvto(avto);
     }
 
 

@@ -1,6 +1,7 @@
 package org.ekipaenajst.beans;
 
 import org.ekipaenajst.entitete.Avto;
+import org.ekipaenajst.entitete.Uporabnik;
 
 import javax.enterprise.context.RequestScoped;
 import javax.annotation.PostConstruct;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-@RequestScoped // js literally sam kradem kodo iz UporabnikiZrno
+@ApplicationScoped // js literally sam kradem kodo iz UporabnikiZrno
 public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEMENTIRAJO SERIALIZABLE, TAKO DA SEM DODAL
 
     @PersistenceContext(unitName = "accounts-jpa")
@@ -22,6 +23,7 @@ public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEME
 
     private Logger log = Logger.getLogger(AvtiZrno.class.getName());
 
+    @Transactional
     public List<Avto> getAvti() {
 
         //em.getTransaction().begin();
@@ -30,5 +32,18 @@ public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEME
         List<Avto> resultList = (List<Avto>)q.getResultList();
 
         return resultList;
+    }
+
+    @Transactional //DEBUG
+    public Avto getAvto(int id) {
+        return em.find(Avto.class, id);
+    }
+
+
+    @Transactional
+    public void updateAvto(Avto avto) {
+
+        em.merge(avto);
+
     }
 }
