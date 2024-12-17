@@ -9,7 +9,7 @@ import javax.persistence.*;
         @NamedQuery(name = "Avto.findId", query="SELECT a from Avto a WHERE a.id= :idParam"),
         @NamedQuery(name = "Avto.findByBrand", query="SELECT a FROM Avto a WHERE a.znamka= :brandParam ORDER BY a.znamka"),
         @NamedQuery(name = "Avto.findByModel", query="SELECT a FROM Avto a WHERE a.model= :modelParam ORDER BY a.model"),
-        @NamedQuery(name = "Avto.findByOwner", query="SELECT a FROM Avto a WHERE a.lastnikID= :ownerParam"),
+        @NamedQuery(name = "Avto.findByOwner", query="SELECT a FROM Avto a WHERE a.lastnik= :ownerParam"),
         @NamedQuery(name = "Avto.findByTimeframe",
                 query="SELECT a FROM Avto a WHERE a.letnik>= :beforeParam AND a.letnik<= :beforeParam")
 })
@@ -19,16 +19,56 @@ public class Avto {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="znamka")
+    //@Column(name="znamka")
     private String znamka;
 
-    @Column(name="letnik")
+    //@Column(name="letnik")
     private String letnik;
 
-    @Column(name="model")
+    //@Column(name="model")
     private String model;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lastnik")
-    private Uporabnik lastnikID;
+    //@JoinColumn(name = "lastnik")
+    private Uporabnik lastnik;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getZnamka() {
+        return znamka;
+    }
+
+    public void setZnamka(String znamka) {
+        this.znamka = znamka;
+    }
+
+    public String getLetnik() {
+        return letnik;
+    }
+
+    public void setLetnik(String letnik) {
+        this.letnik = letnik;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Uporabnik getLastnik() {
+        return lastnik;
+    }
+
+    public void setLastnik(Uporabnik lastnik) {
+        this.lastnik = lastnik;
+    }
 }
