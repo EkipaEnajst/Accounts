@@ -73,31 +73,23 @@ public class UporabnikiZrno {
 
         return resultList.isEmpty() ? null : resultList.get(0);
     }
-    @Transactional //DEBUG
+    @Transactional
     public void updateUporabnik(Uporabnik uporabnik) {
 
-        //EntityTransaction et = em.getTransaction();
-
-        //et.begin();
         em.merge(uporabnik);
-        //et.commit();
 
     }
-    @Transactional //DEBUG
+    @Transactional
     public void deleteUporabnik(Uporabnik uporabnik) {
-
 
         Uporabnik u = em.find(Uporabnik.class, uporabnik.getId());
         em.remove(u);
     }
 
-    @Transactional //DEBUG
+    @Transactional
     public void createUporabnik(Uporabnik uporabnik) {
-        //EntityTransaction et = em.getTransaction();
 
-       // et.begin();
         try {
-            //Uporabnik u = em.merge(uporabnik);
             em.persist(uporabnik);
         }
         catch (Exception e) {
@@ -105,7 +97,7 @@ public class UporabnikiZrno {
             System.out.println(e.getMessage());
             System.out.println("Creating not work");
         }
-        //et.commit();
+
     }
 
 

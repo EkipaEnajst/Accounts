@@ -5,6 +5,7 @@ import org.ekipaenajst.beans.UporabnikiZrno;
 
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -16,6 +17,7 @@ import java.util.List;
 @ApplicationScoped
 public class UporabnikiVir {
 
+    @Inject
     private UporabnikiZrno uporabnikiZrno;
 
     @GET
@@ -35,14 +37,21 @@ public class UporabnikiVir {
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
 
-    @GET
-    @Path("{firstName}")
-    public Response vrniUporabnikaZImenom(String firstName, String lastName){
+    @POST
+    public Response dodajUporabnika(Uporabnik uporabnik){
 
-        Uporabnik uporabnik = uporabnikiZrno.getUporabnikByName(firstName, lastName);
+        uporabnikiZrno.createUporabnik(uporabnik);
 
-        return Response.status(Response.Status.OK).entity(uporabnik).build();
+        return Response.status(Response.Status.CREATED).entity(uporabnik).build();
     }
+//    @GET
+//    @Path("{firstName}")
+//    public Response vrniUporabnikaZImenom(String firstName, String lastName){
+//
+//        Uporabnik uporabnik = uporabnikiZrno.getUporabnikByName(firstName, lastName);
+//
+//        return Response.status(Response.Status.OK).entity(uporabnik).build();
+//    }
 
     // ZA TE TRI NISM ZIHR KAJ VRNIT (bi moral bit ok??????????)
     @PUT
@@ -54,17 +63,12 @@ public class UporabnikiVir {
         return Response.status(Response.Status.OK).entity(uporabnik).build();
     }
 
-    @POST //tale methinks ne rabi patha ipd
-    public Response dodajUporabnika(Uporabnik uporabnik){
-
-        uporabnikiZrno.createUporabnik(uporabnik);
-
-        return Response.noContent().build();
-    }
 
     @DELETE
-    // @Path(asdf)
-    public Response izbrisiUporabnika(Uporabnik uporabnik){
+    @Path("{id}")
+    public Response izbrisiUporabnika(@PathParam("id") int id){
+
+        Uporabnik uporabnik = uporabnikiZrno.getUporabnik(id);
 
         uporabnikiZrno.deleteUporabnik(uporabnik);
 
