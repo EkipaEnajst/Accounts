@@ -1,7 +1,17 @@
 kumuluzee:
   datasources:
     - jndi-name: jdbc/AccountsDS
-      connection-url: jdbc:postgresql://localhost:5432/accounts
+      connection-url: jdbc:postgresql://34.154.10.104:5432/external
       username: postgres
-      password: postgres
+      password: '0y:d\2tysKL2+i"@'
       max-pool-size: 20
+  security:
+    keycloak:
+      json: '{
+              "realm": "accounts-realm",
+              "bearer-only": true,
+              "auth-server-url": "http://localhost:8082/",
+              "ssl-required": "external",
+              "resource": "accounts-api",
+              "confidential-port": 0
+              }'

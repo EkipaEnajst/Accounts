@@ -8,11 +8,14 @@ import java.util.List;
 @Entity
 @Table(name = "uporabnik")
 @NamedQueries(value = {
-        @NamedQuery(name = "Uporabnik.findAll", query="SELECT u FROM Uporabnik u"),
-        @NamedQuery(name = "Uporabnik.findId", query="SELECT u from Uporabnik u WHERE u.id= :idParam"),
-        @NamedQuery(name = "Uporabnik.findByLastname", query="SELECT u FROM Uporabnik u WHERE u.lastName= :lastNameParam ORDER BY u.lastName"),
+        @NamedQuery(name = "Uporabnik.findAll", query = "SELECT u FROM Uporabnik u"),
+        @NamedQuery(name = "Uporabnik.findId", query = "SELECT u from Uporabnik u WHERE u.id= :idParam"),
+        @NamedQuery(name = "Uporabnik.findByLastname", query = "SELECT u FROM Uporabnik u WHERE u.lastName= :lastNameParam ORDER BY u.lastName"),
         @NamedQuery(name = "Uporabnik.findByName",
-                query="SELECT u FROM Uporabnik u WHERE u.lastName = :lastNameParam AND u.firstName = :firstNameParam")
+                query = "SELECT u FROM Uporabnik u WHERE u.lastName = :lastNameParam AND u.firstName = :firstNameParam"),
+        @NamedQuery(name = "Uporabnik.findByEmail", query = "SELECT u FROM Uporabnik u WHERE u.email = :emailParam ORDER BY u.email"),
+        @NamedQuery(name = "Uporabnik.findByEmailAndPassword", query = "SELECT u FROM Uporabnik u WHERE u.email = :emailParam AND u.password = :passwordParam ORDER BY u.lastName")
+
 })
 public class Uporabnik implements Serializable {
 
@@ -32,6 +35,8 @@ public class Uporabnik implements Serializable {
     //@Column(name = "username")
     private String username;
 
+    private String password;
+
     @OneToOne
     //@JoinColumn(name = "naslovId")
     private Naslov naslov;
@@ -45,7 +50,7 @@ public class Uporabnik implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("ID: %d Ime: %s Priimek: %s Email: %s\n",this.id,this.firstName,this.lastName,this.email);
+        return String.format("ID: %d Ime: %s Priimek: %s Email: %s\n", this.id, this.firstName, this.lastName, this.email);
     }
 
     public Integer getId() {
@@ -104,5 +109,11 @@ public class Uporabnik implements Serializable {
         this.avti.remove(avto);
     }
 
+    public String getPassword() {
+        return password;
+    }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

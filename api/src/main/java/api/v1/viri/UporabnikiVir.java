@@ -1,14 +1,19 @@
 package api.v1.viri;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import org.ekipaenajst.entitete.*;
 import org.ekipaenajst.beans.UporabnikiZrno;
 
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @Path("uporabniki")
@@ -20,10 +25,16 @@ public class UporabnikiVir {
     @Inject
     private UporabnikiZrno uporabnikiZrno;
 
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     public Response vrniUporabnike(){
 
-        List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
+        QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki(query);
+
+        //List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
 
         return Response.status(Response.Status.OK).entity(uporabniki).build();
     }
@@ -40,9 +51,21 @@ public class UporabnikiVir {
     @POST
     public Response dodajUporabnika(Uporabnik uporabnik){
 
-        uporabnikiZrno.createUporabnik(uporabnik);
+        if (uporabnikiZrno.createUporabnik(uporabnik)==null) {
+            return Response.status(Response.Status.FOUND).build();
+        }
 
         return Response.status(Response.Status.CREATED).entity(uporabnik).build();
+    }
+
+    @POST
+    @Path("auth")
+    public Response preveriUporabnika(Uporabnik uporabnik) {
+        Uporabnik u = uporabnikiZrno.getUporabnikByEmailAndPassword(uporabnik);
+
+        if (u==null){ return Response.status(Response.Status.UNAUTHORIZED).build();}
+
+        return Response.status(Response.Status.OK).entity(u).build();
     }
 //    @GET
 //    @Path("{firstName}")

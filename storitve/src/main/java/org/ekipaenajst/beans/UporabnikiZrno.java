@@ -1,5 +1,7 @@
 package org.ekipaenajst.beans;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import org.ekipaenajst.entitete.Avto;
 import org.ekipaenajst.entitete.Uporabnik;
 
@@ -10,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import javax.ws.rs.QueryParam;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -52,20 +55,41 @@ public class UporabnikiZrno {
 
 
     @Transactional // DEBUG
-    public List<Uporabnik> getUporabniki() {
+    public List<Uporabnik> getUporabniki(QueryParameters query) {
 
+        System.out.println(query.getFields());
+        System.out.println(query.getFilters());
 
+        //Query q = em.createNamedQuery("Uporabnik.findAll", Uporabnik.class);
 
-        Query q = em.createNamedQuery("Uporabnik.findAll", Uporabnik.class);
+        List<Uporabnik> uporabniki = JPAUtils.queryEntities(em, Uporabnik.class, query);
+        return uporabniki;
 
-        List<Uporabnik> resultList = (List<Uporabnik>)q.getResultList();
+        //List<Uporabnik> resultList = (List<Uporabnik>)q.getResultList();
 
-        return resultList;
+        //return resultList;
     }
 
     @Transactional //DEBUG
     public Uporabnik getUporabnik(int id) {
         return em.find(Uporabnik.class, id);
+    }
+
+    @Transactional
+    public Uporabnik getUporabnikByEmailAndPassword(Uporabnik uporabnik) {
+        String email = uporabnik.getEmail();
+        String password = uporabnik.getPassword();
+
+        Query q = em.createNamedQuery("Uporabnik.findByEmailAndPassword");
+        q.setParameter("email", email);
+        q.setParameter("password", password);
+        List<Uporabnik> uporabniki = q.getResultList();
+        if (uporabniki.isEmpty()) {
+            return null;
+        }
+
+        return uporabniki.get(0);
+
     }
 
     @Transactional //DEBUG
@@ -92,16 +116,26 @@ public class UporabnikiZrno {
     }
 
     @Transactional
-    public void createUporabnik(Uporabnik uporabnik) {
+    public Uporabnik createUporabnik(Uporabnik uporabnik) {
 
         try {
-            em.persist(uporabnik);
+
+            if (getUporabnikByEmailAndPassword(uporabnik)==null){
+                em.persist(uporabnik);
+                return uporabnik;
+            }
+
+            return null;
+
+
         }
         catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
             System.out.println("Creating not work");
         }
+
+        return null;
 
     }
 
