@@ -9,6 +9,8 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
@@ -28,6 +30,19 @@ public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEME
 
         //em.getTransaction().begin();
         Query q = em.createNamedQuery("Avto.findAll", Avto.class);
+
+        List<Avto> resultList = (List<Avto>)q.getResultList();
+
+        return resultList;
+    }
+
+
+    @Transactional
+    public List<Avto> getAvtiByOwner(int id) {
+
+        //em.getTransaction().begin();
+        Query q = em.createNamedQuery("Avto.findByOwner", Avto.class);
+        q.setParameter("ownerParam", id);
 
         List<Avto> resultList = (List<Avto>)q.getResultList();
 
