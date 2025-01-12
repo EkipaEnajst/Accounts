@@ -27,8 +27,8 @@ public class AvtiVir {
 
         Map<String,String> env = System.getenv();
 
-        //frontendURL = env.get("FRONTEND_URL");
-        frontendURL = "*";
+        frontendURL = env.get("FRONTEND_DEPLOYMENT_SERVICE_SERVICE_HOST");
+        //frontendURL = "*";
     }
 
     @Inject

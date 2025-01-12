@@ -31,8 +31,8 @@ public class UporabnikiVir {
 
         Map<String,String> env = System.getenv();
 
-        //frontendURL = env.get("FRONTEND_DEPLOYMENT_SERVICE_SERVICE_HOST");
-        frontendURL="*";
+        frontendURL = env.get("FRONTEND_DEPLOYMENT_SERVICE_SERVICE_HOST");
+        //frontendURL="*";
     }
 
     @Inject
