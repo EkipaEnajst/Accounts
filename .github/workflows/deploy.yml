@@ -1,0 +1,61 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Set up Google Cloud CLI
+    - name: Set up Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v1
+      with:
+        version: 'latest'
+        project_id: ${{ secrets.PROJECT_ID }}
+
+     # Authenticate with Google Cloud using the service account key
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    # Authenticate with GKE
+    - name: Authenticate to GKE
+      run: |
+        gcloud container clusters get-credentials ${{ secrets.GKE_CLUSTER }} --zone ${{ secrets.GKE_ZONE }}
+
+      # Install the gke-gcloud-auth-plugin using gcloud
+    - name: Install gke-gcloud-auth-plugin
+      run: |
+        gcloud components install gke-gcloud-auth-plugin
+
+      # Configure Docker to use the gcloud command-line tool as a credential
+      # helper for authentication
+    - name: Docker configuration
+      run: |-
+        gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://europe-west8-docker.pkg.dev
+
+
+    # Build and push Docker image
+    - name: Build and Push to Artifact Registry
+      run: |
+        IMAGE_URI=europe-west8-docker.pkg.dev/${{ secrets.PROJECT_ID }}/smartpark-repo/accounts:${{ github.sha }}
+        docker build -t $IMAGE_URI .
+        docker push $IMAGE_URI
+
+    # Deploy to GKE
+    - name: Apply Kubernetes Manifests
+      run: |
+        IMAGE_URI=europe-west8-docker.pkg.dev/${{ secrets.PROJECT_ID }}/smartpark-repo/accounts:${{ github.sha }}
+        sed -i "s|europe-west8-docker.pkg.dev/.*/smartpark-repo/accounts:latest|$IMAGE_URI|g" k8s/deployment.yaml
+        kubectl apply -f k8s/deployment.yaml
+
+
