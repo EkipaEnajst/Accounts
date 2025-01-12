@@ -5,6 +5,7 @@ import org.ekipaenajst.entitete.*;
 import org.ekipaenajst.beans.UporabnikiZrno;
 
 
+import javax.annotation.PostConstruct;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
@@ -15,12 +16,23 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
+import java.util.Map;
 
 @Path("uporabniki")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class UporabnikiVir {
+
+    private String frontendURL;
+
+    @PostConstruct
+    public void init() {
+
+        Map<String,String> env = System.getenv();
+
+        frontendURL = env.get("FRONTEND_URL");
+    }
 
     @Inject
     private UporabnikiZrno uporabnikiZrno;
@@ -36,7 +48,10 @@ public class UporabnikiVir {
 
         //List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
 
-        return Response.status(Response.Status.OK).entity(uporabniki).build();
+        return Response.status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .entity(uporabniki).build();
     }
 
     @GET
@@ -45,7 +60,10 @@ public class UporabnikiVir {
 
         Uporabnik uporabnik = uporabnikiZrno.getUporabnik(id);
 
-        return Response.status(Response.Status.OK).entity(uporabnik).build();
+        return Response.status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .entity(uporabnik).build();
     }
 
     @POST
@@ -55,7 +73,10 @@ public class UporabnikiVir {
             return Response.status(Response.Status.FOUND).build();
         }
 
-        return Response.status(Response.Status.CREATED).entity(uporabnik).build();
+        return Response.status(Response.Status.CREATED)
+                .header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .entity(uporabnik).build();
     }
 
     @POST
@@ -65,7 +86,10 @@ public class UporabnikiVir {
 
         if (u==null){ return Response.status(Response.Status.UNAUTHORIZED).build();}
 
-        return Response.status(Response.Status.OK).entity(u).build();
+        return Response.status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .entity(u).build();
     }
 //    @GET
 //    @Path("{firstName}")
@@ -83,7 +107,10 @@ public class UporabnikiVir {
 
         uporabnikiZrno.updateUporabnik(uporabnik);
 
-        return Response.status(Response.Status.OK).entity(uporabnik).build();
+        return Response.status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .entity(uporabnik).build();
     }
 
 
@@ -95,6 +122,9 @@ public class UporabnikiVir {
 
         uporabnikiZrno.deleteUporabnik(uporabnik);
 
-        return Response.noContent().build();
+        return Response.noContent()
+                .header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .build();
     }
 }

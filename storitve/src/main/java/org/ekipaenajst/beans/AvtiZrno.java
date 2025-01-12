@@ -9,6 +9,8 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,21 +37,23 @@ public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEME
         return resultList;
     }
 
+
     @Transactional
-    public List<Avto> getAvtiByOwner(Integer ownerId) {
-        Query q = em.createNamedQuery("Avto.findByOwner", Avto.class);
-        q.setParameter("ownerIdParam", ownerId);
+    public List<Avto> getAvtiByOwner(int id) {
+
+        //em.getTransaction().begin();
+//        Query q = em.createNamedQuery("Avto.findByOwner", Avto.class);
+//        q.setParameter("ownerParam", id);
+
+       // List<Avto> resultList = (List<Avto>)q.getResultList();
 
         List<Avto> resultList = getAvti();
-
         List<Avto> resultList2 = new ArrayList<Avto>();
 
         for (Avto avto : resultList) {
-            if (avto.getLastnik()!=null) {
-                if (avto.getLastnik().getId().equals(ownerId)) {
-                    resultList2.add(avto);
-                    System.out.println(avto);
-                }
+            if (avto.getLastnik()!=null && avto.getLastnik().getId() == id) {
+                resultList2.add(avto);
+                System.out.println(avto);
             }
         }
 
@@ -75,4 +79,6 @@ public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEME
         em.merge(avto);
 
     }
+
+
 }
