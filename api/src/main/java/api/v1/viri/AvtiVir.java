@@ -56,6 +56,12 @@ public class AvtiVir {
                 .entity(avti).build();
     }
 
+    @POST
+    @Path("{id}")
+    public Response dodajAvto(@PathParam("id") Integer id){
+        avtiZrno.
+    }
+
     @PUT
     public Response posodobiAvto(Avto avto) {
         // TEMPORARY CODE FOR DEBUGGING
