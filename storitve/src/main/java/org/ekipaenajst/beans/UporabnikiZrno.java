@@ -81,8 +81,8 @@ public class UporabnikiZrno {
         String password = uporabnik.getPassword();
 
         Query q = em.createNamedQuery("Uporabnik.findByEmailAndPassword");
-        q.setParameter("email", email);
-        q.setParameter("password", password);
+        q.setParameter("emailParam", email);
+        q.setParameter("passwordParam", password);
         List<Uporabnik> uporabniki = q.getResultList();
         if (uporabniki.isEmpty()) {
             return null;

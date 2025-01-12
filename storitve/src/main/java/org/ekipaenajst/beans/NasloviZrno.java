@@ -30,4 +30,12 @@ public class NasloviZrno implements Serializable { //me when i copypaste
 
         return resultList;
     }
+
+    public void createNaslov(Naslov naslov) {
+        em.persist(naslov);
+    }
+
+    public void dodajNaslovUporabniku(Naslov naslov, Uporabnik uporabnik) {
+
+    }
 }

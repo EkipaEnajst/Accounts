@@ -10,6 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+import static javax.ws.rs.core.Response.ok;
+
 @Path("naslovi")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -24,6 +26,14 @@ public class NasloviVir {
         List<Naslov> naslovi = nasloviZrno.getNaslovi();
 
         return Response.status(Response.Status.OK).entity(naslovi).build();
+    }
+
+
+    @POST
+    @Path("{id}")
+    public Response ustvariNaslov(@PathParam("id") Integer id, Naslov naslov){
+        return Response.status(Response.Status.OK).build();
+
     }
 
 }

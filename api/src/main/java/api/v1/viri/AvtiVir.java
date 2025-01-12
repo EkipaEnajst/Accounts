@@ -32,6 +32,15 @@ public class AvtiVir {
         return Response.status(Response.Status.OK).entity(avti).build();
     }
 
+    @GET
+    @Path("lastnik/{id}")
+    public Response vrniAvtePoLastniku(@PathParam("id") Integer ownerId){
+
+        List<Avto> avti = avtiZrno.getAvti();
+
+        return Response.status(Response.Status.OK).entity(avti).build();
+    }
+
     @PUT
     public Response posodobiAvto(Avto avto) {
         // TEMPORARY CODE FOR DEBUGGING
@@ -41,6 +50,18 @@ public class AvtiVir {
         avtiZrno.updateAvto(avto);
 
         return Response.status(Response.Status.OK).entity(avto).build();
+    }
+
+    @POST
+    @Path("{id}")
+    public Response ustvariAvto(@PathParam("id") Integer ownerId, Avto avto) {
+        avtiZrno.createAvto(avto);
+
+        Uporabnik u = uporabnikiZrno.getUporabnik(ownerId);
+        uporabnikiZrno.addAvtoToUporabnik(u,avto);
+
+        return Response.status(Response.Status.OK).entity(avto).build();
+
     }
 
 }

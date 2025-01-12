@@ -10,6 +10,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -34,9 +35,37 @@ public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEME
         return resultList;
     }
 
+    @Transactional
+    public List<Avto> getAvtiByOwner(Integer ownerId) {
+        Query q = em.createNamedQuery("Avto.findByOwner", Avto.class);
+        q.setParameter("ownerIdParam", ownerId);
+
+        List<Avto> resultList = getAvti();
+
+        List<Avto> resultList2 = new ArrayList<Avto>();
+
+        for (Avto avto : resultList) {
+            if (avto.getLastnik()!=null) {
+                if (avto.getLastnik().getId().equals(ownerId)) {
+                    resultList2.add(avto);
+                    System.out.println(avto);
+                }
+            }
+        }
+
+
+
+        return resultList2;
+    }
+
     @Transactional //DEBUG
     public Avto getAvto(int id) {
         return em.find(Avto.class, id);
+    }
+
+    @Transactional
+    public void createAvto(Avto avto) {
+        em.persist(avto);
     }
 
 

@@ -9,7 +9,7 @@ import javax.persistence.*;
         @NamedQuery(name = "Avto.findId", query="SELECT a from Avto a WHERE a.id= :idParam"),
         @NamedQuery(name = "Avto.findByBrand", query="SELECT a FROM Avto a WHERE a.znamka= :brandParam ORDER BY a.znamka"),
         @NamedQuery(name = "Avto.findByModel", query="SELECT a FROM Avto a WHERE a.model= :modelParam ORDER BY a.model"),
-        @NamedQuery(name = "Avto.findByOwner", query="SELECT a FROM Avto a WHERE a.lastnik= :ownerParam"),
+        @NamedQuery(name = "Avto.findByOwner", query="SELECT a FROM Avto a WHERE a.lastnik.id = :ownerIdParam"),
         @NamedQuery(name = "Avto.findByTimeframe",
                 query="SELECT a FROM Avto a WHERE a.letnik>= :beforeParam AND a.letnik<= :beforeParam")
 })
@@ -27,6 +27,8 @@ public class Avto {
 
     //@Column(name="model")
     private String model;
+
+    private String registrskaStevilka;
 
     @ManyToOne(fetch = FetchType.LAZY)
     //@JoinColumn(name = "lastnik")
@@ -70,5 +72,13 @@ public class Avto {
 
     public void setLastnik(Uporabnik lastnik) {
         this.lastnik = lastnik;
+    }
+
+    public String getRegistrskaStevilka() {
+        return registrskaStevilka;
+    }
+
+    public void setRegistrskaStevilka(String registrskaStevilka) {
+        this.registrskaStevilka = registrskaStevilka;
     }
 }
