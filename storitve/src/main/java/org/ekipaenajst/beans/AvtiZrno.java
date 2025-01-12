@@ -51,7 +51,7 @@ public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEME
         List<Avto> resultList2 = new ArrayList<Avto>();
 
         for (Avto avto : resultList) {
-            if (avto.getLastnik().getId() == id) {
+            if (avto.getLastnik()!=null && avto.getLastnik().getId() == id) {
                 resultList2.add(avto);
                 System.out.println(avto);
             }
@@ -67,6 +67,11 @@ public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEME
         return em.find(Avto.class, id);
     }
 
+    @Transactional
+    public void createAvto(Avto avto) {
+        em.persist(avto);
+    }
+
 
     @Transactional
     public void updateAvto(Avto avto) {
@@ -74,4 +79,6 @@ public class AvtiZrno implements Serializable { // BAJE JE DOBRO DA ZRNA IMPLEME
         em.merge(avto);
 
     }
+
+
 }

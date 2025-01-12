@@ -150,5 +150,7 @@ public class UporabnikiZrno {
         avtiZrno.updateAvto(avto);
     }
 
+    
+
 
 }

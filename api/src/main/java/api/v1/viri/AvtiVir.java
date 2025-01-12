@@ -58,8 +58,14 @@ public class AvtiVir {
 
     @POST
     @Path("{id}")
-    public Response dodajAvto(@PathParam("id") Integer id){
-        avtiZrno.
+    public Response ustvariAvto(@PathParam("id") Integer ownerId, Avto avto) {
+        avtiZrno.createAvto(avto);
+
+        Uporabnik u = uporabnikiZrno.getUporabnik(ownerId);
+        uporabnikiZrno.addAvtoToUporabnik(u,avto);
+
+        return Response.status(Response.Status.OK).entity(avto).build();
+
     }
 
     @PUT
