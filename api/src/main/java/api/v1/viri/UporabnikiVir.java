@@ -31,7 +31,8 @@ public class UporabnikiVir {
 
         Map<String,String> env = System.getenv();
 
-        frontendURL = env.get("FRONTEND_URL");
+        //frontendURL = env.get("FRONTEND_DEPLOYMENT_SERVICE_SERVICE_HOST");
+        frontendURL="*";
     }
 
     @Inject
@@ -70,7 +71,8 @@ public class UporabnikiVir {
     public Response dodajUporabnika(Uporabnik uporabnik){
 
         if (uporabnikiZrno.createUporabnik(uporabnik)==null) {
-            return Response.status(Response.Status.FOUND).build();
+            return Response.status(Response.Status.FOUND).header("Access-Control-Allow-Origin", frontendURL)
+                    .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT").build();
         }
 
         return Response.status(Response.Status.CREATED)
@@ -84,7 +86,8 @@ public class UporabnikiVir {
     public Response preveriUporabnika(Uporabnik uporabnik) {
         Uporabnik u = uporabnikiZrno.getUporabnikByEmailAndPassword(uporabnik);
 
-        if (u==null){ return Response.status(Response.Status.UNAUTHORIZED).build();}
+        if (u==null){ return Response.status(Response.Status.UNAUTHORIZED).header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT").build();}
 
         return Response.status(Response.Status.OK)
                 .header("Access-Control-Allow-Origin", frontendURL)

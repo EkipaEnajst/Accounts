@@ -27,7 +27,8 @@ public class NasloviVir {
 
         Map<String,String> env = System.getenv();
 
-        frontendURL = env.get("FRONTEND_URL");
+        //frontendURL = env.get("FRONTEND_URL");
+        frontendURL = "*";
     }
 
     private NasloviZrno nasloviZrno;
@@ -47,7 +48,8 @@ public class NasloviVir {
     @POST
     @Path("{id}")
     public Response ustvariNaslov(@PathParam("id") Integer id, Naslov naslov){
-        return Response.status(Response.Status.OK).build();
+        return Response.status(Response.Status.OK).header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT").build();
 
     }
 

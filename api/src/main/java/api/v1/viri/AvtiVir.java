@@ -27,7 +27,8 @@ public class AvtiVir {
 
         Map<String,String> env = System.getenv();
 
-        frontendURL = env.get("FRONTEND_URL");
+        //frontendURL = env.get("FRONTEND_URL");
+        frontendURL = "*";
     }
 
     @Inject
@@ -41,12 +42,15 @@ public class AvtiVir {
 
         List<Avto> avti = avtiZrno.getAvti();
 
-        return Response.status(Response.Status.OK).entity(avti).build();
+        return Response.status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .entity(avti).build();
     }
 
     @GET
     @Path("{id}")
-    public Response vrniAvte(@PathParam("id") int id){
+    public Response vrniAvteZId(@PathParam("id") int id){
 
         List<Avto> avti = avtiZrno.getAvtiByOwner(id);
 
@@ -56,17 +60,7 @@ public class AvtiVir {
                 .entity(avti).build();
     }
 
-    @POST
-    @Path("{id}")
-    public Response ustvariAvto(@PathParam("id") Integer ownerId, Avto avto) {
-        avtiZrno.createAvto(avto);
 
-        Uporabnik u = uporabnikiZrno.getUporabnik(ownerId);
-        uporabnikiZrno.addAvtoToUporabnik(u,avto);
-
-        return Response.status(Response.Status.OK).entity(avto).build();
-
-    }
 
     @PUT
     public Response posodobiAvto(Avto avto) {
@@ -90,7 +84,10 @@ public class AvtiVir {
         Uporabnik u = uporabnikiZrno.getUporabnik(ownerId);
         uporabnikiZrno.addAvtoToUporabnik(u,avto);
 
-        return Response.status(Response.Status.OK).entity(avto).build();
+        return Response.status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", frontendURL)
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .entity(avto).build();
 
     }
 
