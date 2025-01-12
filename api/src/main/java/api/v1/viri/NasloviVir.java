@@ -39,8 +39,8 @@ public class NasloviVir {
         List<Naslov> naslovi = nasloviZrno.getNaslovi();
 
         return Response.status(Response.Status.OK)
-                .header("Access-Control-Allow-Origin", frontendURL)
                 .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .header("Access-Control-Allow-Origin", frontendURL)
                 .entity(naslovi).build();
     }
 
@@ -48,8 +48,8 @@ public class NasloviVir {
     @POST
     @Path("{id}")
     public Response ustvariNaslov(@PathParam("id") Integer id, Naslov naslov){
-        return Response.status(Response.Status.OK).header("Access-Control-Allow-Origin", frontendURL)
-                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT").build();
+        return Response.status(Response.Status.OK).header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT").header("Access-Control-Allow-Origin", frontendURL)
+                .build();
 
     }
 

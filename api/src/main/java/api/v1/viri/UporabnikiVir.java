@@ -50,8 +50,8 @@ public class UporabnikiVir {
         //List<Uporabnik> uporabniki = uporabnikiZrno.getUporabniki();
 
         return Response.status(Response.Status.OK)
-                .header("Access-Control-Allow-Origin", frontendURL)
                 .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .header("Access-Control-Allow-Origin", frontendURL)
                 .entity(uporabniki).build();
     }
 
@@ -62,8 +62,8 @@ public class UporabnikiVir {
         Uporabnik uporabnik = uporabnikiZrno.getUporabnik(id);
 
         return Response.status(Response.Status.OK)
-                .header("Access-Control-Allow-Origin", frontendURL)
                 .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .header("Access-Control-Allow-Origin", frontendURL)
                 .entity(uporabnik).build();
     }
 
@@ -76,8 +76,8 @@ public class UporabnikiVir {
         }
 
         return Response.status(Response.Status.CREATED)
-                .header("Access-Control-Allow-Origin", frontendURL)
                 .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .header("Access-Control-Allow-Origin", frontendURL)
                 .entity(uporabnik).build();
     }
 

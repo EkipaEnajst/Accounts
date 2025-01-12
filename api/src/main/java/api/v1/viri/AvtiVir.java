@@ -43,8 +43,8 @@ public class AvtiVir {
         List<Avto> avti = avtiZrno.getAvti();
 
         return Response.status(Response.Status.OK)
-                .header("Access-Control-Allow-Origin", frontendURL)
                 .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .header("Access-Control-Allow-Origin", frontendURL)
                 .entity(avti).build();
     }
 
