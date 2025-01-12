@@ -122,9 +122,11 @@ public class UporabnikiZrno {
 
             if (getUporabnikByEmailAndPassword(uporabnik)==null){
                 em.persist(uporabnik);
+                System.out.println("Uporabnik created.");
                 return uporabnik;
             }
 
+            System.out.println("Uporabnik exists.");
             return null;
 
 
